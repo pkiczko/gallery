@@ -1,6 +1,8 @@
 //keys in data file for reference:
 //firstName:lastName:title:Nationality:src:alt:skills:[],
 //whySofterDeveloper:longTermVision:motivatesMe:favoriteQuote:joinedOn:
+let folder = 'smurfs'; // or images
+let adjustment = 800; //for well scaled pictures to 120px width this value ought to be 600
 let choice = document.getElementById('choice');
 let info = document.getElementById('info');
 let infoImage = document.getElementById('infoImage');
@@ -9,16 +11,16 @@ let downFlag;
 let currentPic = '';
 data.forEach(pic => {
   let img = document.createElement('img');
-  img.alt = `images/${pic.alt}`;
-  img.src = `images/${pic.src}`;
+  img.alt = `${folder}/${pic.alt}`;
+  img.src = `${folder}/${pic.src}`;
   img.setAttribute('draggable', false);
   img.setAttribute('ondragstart', 'return false;');
   //img.setAttribute('onmouseup', `showPhoto(${pic})`);
   img.onmousedown = function(){currentPic = pic.src};
   img.onmouseup = function(){
     if (currentPic === pic.src){
-    infoImage.src=`images/${pic.src}`;
-    infoImage.alt=`images/${pic.alt}`;
+    infoImage.src=`${folder}/${pic.src}`;
+    infoImage.alt=`${folder}/${pic.alt}`;
     dataIn.innerHTML = `
     <b>Name:</b> ${pic.firstName.charAt(0).toUpperCase() + pic.firstName.slice(1)} <br />
     <b>Nationality:</b> ${pic.nationality.charAt(0).toUpperCase() + pic.nationality.slice(1)} <br />
@@ -76,11 +78,11 @@ choice.onmousemove = function(move) {
     timestamp = now;
     lastMouseX = move.screenX;
     //console.log(speedX);
-    if (calc <= 1440 && calc >= 0)
+    if (calc <= ((data.length+1)*120) && calc >= 0)
     { calc -= speedX;
       if (calc < 0) {calc = 0;
         }
-      else if (calc > 1440) {calc = 1440;}
+      else if (calc > ((data.length+1)*120-adjustment)) {calc = ((data.length+1)*120)-adjustment;}
       choice.style.right = `${calc}px`;
     }
 
